@@ -434,7 +434,11 @@ async function fetchSheet(){
   try{
     const bust=sheetURL+(sheetURL.includes('?')?'&':'?')+'_t='+Date.now();
     const res=await fetch(bust);
-    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    if(!res.ok){
+      if(res.status===404) throw new Error('404 Not Found — publish your sheet as CSV and use /pub?output=csv URL');
+      if(res.status===403) throw new Error('403 Forbidden — sheet is not shared or published; set sharing to Anyone with link and publish');
+      throw new Error(`HTTP ${res.status}`);
+    }
     const text=await res.text();
     const rows=parseCSV(text);
     const data=SKIP_HEADER?rows.slice(1):rows;
