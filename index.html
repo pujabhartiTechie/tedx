@@ -177,12 +177,13 @@
 
 // ── Clusters ──────────────────────────────────────────────────
 const CLUSTERS=[
-  {id:'tech',  label:'Technology',hex:'#38e8ff',keywords:['tech','ai','digital','robot','code','software','data','internet','machine','computer','algorithm','cyber']},
-  {id:'human', label:'Humanity',  hex:'#ff4d8d',keywords:['empathy','mental','health','people','community','society','human','family','love','emotion','care','mind']},
-  {id:'earth', label:'Earth',     hex:'#39ff8a',keywords:['climate','nature','planet','environment','green','forest','ocean','wildlife','carbon','energy','rewild','sustain']},
-  {id:'edu',   label:'Education', hex:'#f5c842',keywords:['school','learn','teach','education','student','knowledge','science','research','university','study','book']},
-  {id:'govern',label:'Governance',hex:'#a855f7',keywords:['govern','policy','law','democra','open','freedom','rights','justice','equal','vote','city','public']},
-  {id:'create',label:'Creativity',hex:'#ff8c38',keywords:['art','creat','music','design','culture','story','film','express','imagin','innovat','dream','beauty']},
+  {id:'humanity',label:'Humanity',hex:'#00C896',gradientStart:'#00C896',gradientEnd:'#00A878',keywords:['empathy','mental','health','people','community','society','human','family','love','emotion','care','mind']},
+  {id:'tech',label:'Technology',hex:'#3B82F6',gradientStart:'#3B82F6',gradientEnd:'#1D4ED8',keywords:['tech','ai','digital','robot','code','software','data','internet','machine','computer','algorithm','cyber','smart']},
+  {id:'edu',label:'Education',hex:'#F59E0B',gradientStart:'#F59E0B',gradientEnd:'#D97706',keywords:['school','learn','teach','education','student','knowledge','science','research','university','study','book']},
+  {id:'creativity',label:'Creativity',hex:'#A855F7',gradientStart:'#A855F7',gradientEnd:'#7C3AED',keywords:['art','creat','music','design','culture','story','film','express','imagin','innovat','dream','beauty']},
+  {id:'earth',label:'Earth',hex:'#22C55E',gradientStart:'#22C55E',gradientEnd:'#16A34A',keywords:['climate','nature','planet','environment','green','forest','ocean','wildlife','carbon','energy','rewild','sustain']},
+  {id:'governance',label:'Governance',hex:'#06B6D4',gradientStart:'#06B6D4',gradientEnd:'#0284C7',keywords:['govern','policy','law','democra','open','freedom','rights','justice','equal','vote','city','public']},
+  {id:'human',label:'Human',hex:'#F43F5E',gradientStart:'#F43F5E',gradientEnd:'#E11D48',keywords:['mental','health','support','app','community']},
 ];
 function classifyIdea(t){
   t=t.toLowerCase();
@@ -314,12 +315,13 @@ function addIdeaNode(idea,cluster,animate){
   const el=document.createElement('div');
   el.className='idea-node';
   el.style.left=x+'px';el.style.top=y+'px';
+  const gradient=`linear-gradient(135deg, ${cluster.gradientStart}, ${cluster.gradientEnd})`;
   el.style.borderColor=cluster.hex+'33';
   el.style.boxShadow=`0 0 18px ${cluster.hex}18`;
   el.innerHTML=`
-    <div class="node-pin" style="background:${cluster.hex};box-shadow:0 0 8px ${cluster.hex}88"></div>
+    <div class="node-pin" style="background:${gradient};box-shadow:0 0 8px ${cluster.hex}88"></div>
     <div class="node-header">
-      <div class="node-dot" style="background:${cluster.hex};box-shadow:0 0 6px ${cluster.hex}"></div>
+      <div class="node-dot" style="background:${gradient};box-shadow:0 0 6px ${cluster.hex}"></div>
       <div class="node-name">${esc(idea.name)}</div>
       <div class="node-cluster">${cluster.label}</div>
     </div>
@@ -347,11 +349,15 @@ function addIdeaNode(idea,cluster,animate){
   el.addEventListener('mouseenter',()=>{
     el.style.borderColor=cluster.hex;
     el.style.boxShadow=`0 0 28px ${cluster.hex}44,0 0 8px ${cluster.hex}22`;
+    el.querySelector('.node-pin').style.background=`linear-gradient(135deg, ${cluster.gradientStart}, ${cluster.gradientEnd})`;
+    el.querySelector('.node-dot').style.background=`linear-gradient(135deg, ${cluster.gradientStart}, ${cluster.gradientEnd})`;
     el.style.zIndex='10';
   });
   el.addEventListener('mouseleave',()=>{
     el.style.borderColor=cluster.hex+'33';
     el.style.boxShadow=`0 0 18px ${cluster.hex}18`;
+    el.querySelector('.node-pin').style.background=`linear-gradient(135deg, ${cluster.gradientStart}, ${cluster.gradientEnd})`;
+    el.querySelector('.node-dot').style.background=`linear-gradient(135deg, ${cluster.gradientStart}, ${cluster.gradientEnd})`;
     el.style.zIndex='';
   });
 
