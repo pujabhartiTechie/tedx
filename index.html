@@ -7,18 +7,19 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;500&display=swap');
   :root{
-    --void:#020408;--gold:#f5c842;--cyan:#38e8ff;--rose:#ff4d8d;
-    --violet:#a855f7;--green:#39ff8a;--orange:#ff8c38;--white:#e8f0ff;
+    --void:#F7F5FF;--gold:#f5c842;--cyan:#38e8ff;--rose:#ff4d8d;
+    --violet:#a855f7;--green:#39ff8a;--orange:#ff8c38;--white:#1A0B3B;
     --dim:rgba(232,240,255,0.4);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:var(--void);color:var(--white);font-family:'Space Grotesk',sans-serif;overflow:hidden;height:100vh;width:100vw;cursor:none;}
 
   #bg-canvas{position:fixed;inset:0;z-index:1;}
-  .nebula{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:2;}
-  .n1{width:1000px;height:800px;background:radial-gradient(circle,rgba(26,42,122,0.15),transparent);top:-300px;left:-200px;}
-  .n2{width:800px;height:800px;background:radial-gradient(circle,rgba(90,26,122,0.12),transparent);bottom:-200px;right:-150px;}
-  .n3{width:500px;height:400px;background:radial-gradient(circle,rgba(26,90,58,0.1),transparent);top:40%;left:50%;}
+  .bg-orb{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:2;}
+  .bg-orb-1{width:320px;height:320px;background:rgba(224, 217, 255, 0.4);top:-150px;left:-100px;}
+  .bg-orb-2{width:260px;height:260px;background:rgba(212, 237, 255, 0.4);top:-80px;right:-50px;}
+  .bg-orb-3{width:200px;height:200px;background:rgba(255, 228, 240, 0.4);bottom:-80px;left:50%;transform:translateX(-50%);}
+  .bg-orb-4{width:150px;height:150px;background:rgba(212, 255, 232, 0.4);bottom:100px;right:50px;}
 
   #mesh-canvas{position:fixed;inset:0;z-index:3;pointer-events:none;}
   #node-layer{position:fixed;inset:0;z-index:4;pointer-events:none;}
@@ -26,8 +27,8 @@
   /* ── Dialog node card ── */
   .idea-node{
     position:absolute;pointer-events:all;
-    background:rgba(4,8,18,0.85);
-    border:1px solid rgba(255,255,255,0.08);
+    background:rgba(255,255,255,0.9);
+    border:1px solid rgba(237,233,255,0.8);
     border-radius:14px;
     padding:10px 13px;
     max-width:210px;min-width:140px;
@@ -53,7 +54,7 @@
   @keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.45;transform:scale(0.7)}}
   .node-name{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:0.6;}
   .node-cluster{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;margin-left:auto;opacity:0.35;}
-  .node-text{font-size:11.5px;line-height:1.5;color:rgba(232,240,255,0.88);}
+  .node-text{font-size:11.5px;line-height:1.5;color:#1A0B3B;}
   .node-pin{position:absolute;width:10px;height:10px;border-radius:50%;top:-5px;left:-5px;border:2px solid rgba(4,8,18,0.9);}
 
   /* ── Header ── */
@@ -84,33 +85,33 @@
   #config-panel{
     position:fixed;bottom:0;left:0;right:0;z-index:200;
     padding:14px 36px 22px;
-    background:linear-gradient(to top,rgba(2,4,8,0.99) 60%,transparent);
+    background:linear-gradient(to top,rgba(247,245,255,0.99) 60%,transparent);
     display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
   }
-  .cfg-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);white-space:nowrap;}
+  .cfg-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#9B8EC4;white-space:nowrap;}
   #sheet-url-input{
-    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
-    border-radius:10px;color:var(--white);font-family:'Space Mono',monospace;
+    background:rgba(255,255,255,0.9);border:1px solid rgba(237,233,255,0.8);
+    border-radius:10px;color:#1A0B3B;font-family:'Space Mono',monospace;
     font-size:11px;padding:9px 13px;outline:none;
     width:clamp(260px,44vw,520px);
     transition:border-color 0.3s;
   }
-  #sheet-url-input:focus{border-color:rgba(56,232,255,0.45);}
-  #sheet-url-input::placeholder{color:rgba(232,240,255,0.18);font-size:10px;}
+  #sheet-url-input:focus{border-color:#7C3AED;}
+  #sheet-url-input::placeholder{color:#CCC;font-size:10px;}
   .connect-btn{
-    background:linear-gradient(135deg,var(--gold),#e09018);border:none;
-    border-radius:10px;color:#080600;font-family:'Bebas Neue',sans-serif;
+    background:linear-gradient(135deg,#7C3AED,#5B21B6);border:none;
+    border-radius:10px;color:white;font-family:'Bebas Neue',sans-serif;
     font-size:16px;letter-spacing:2px;padding:10px 22px;cursor:pointer;
     transition:transform 0.2s,box-shadow 0.2s;white-space:nowrap;
   }
-  .connect-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,200,66,0.28);}
+  .connect-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,0.3);}
   .clear-btn{
-    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
-    border-radius:10px;color:rgba(232,240,255,0.45);font-family:'Space Mono',monospace;
+    background:rgba(255,255,255,0.9);border:1px solid rgba(237,233,255,0.8);
+    border-radius:10px;color:#9B8EC4;font-family:'Space Mono',monospace;
     font-size:10px;letter-spacing:1px;padding:9px 16px;cursor:pointer;
     transition:all 0.2s;white-space:nowrap;
   }
-  .clear-btn:hover{background:rgba(255,77,141,0.1);border-color:rgba(255,77,141,0.3);color:var(--rose);}
+  .clear-btn:hover{background:#F3F0FF;border-color:#E4DEFF;color:#1A0B3B;}
 
   /* ── Cursor ── */
   #cursor{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--cyan);pointer-events:none;z-index:9999;mix-blend-mode:screen;transform:translate(-50%,-50%);}
@@ -123,15 +124,15 @@
   /* ── Empty state hint ── */
   #howto{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;text-align:center;pointer-events:none;opacity:1;transition:opacity 1.2s;}
   #howto.hidden{opacity:0;}
-  .howto-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,2vw,28px);letter-spacing:6px;color:rgba(232,240,255,0.1);margin-bottom:10px;}
-  .howto-steps{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(232,240,255,0.07);line-height:2.2;}
+  .howto-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,2vw,28px);letter-spacing:6px;color:#1A0B3B;margin-bottom:10px;}
+  .howto-steps{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:#9B8EC4;line-height:2.2;}
 </style>
 </head>
 <body>
 <div id="cursor"></div><div id="cursor-ring"></div>
 
 <canvas id="bg-canvas"></canvas>
-<div class="nebula n1"></div><div class="nebula n2"></div><div class="nebula n3"></div>
+<div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div><div class="bg-orb bg-orb-3"></div><div class="bg-orb bg-orb-4"></div>
 <canvas id="mesh-canvas"></canvas>
 <div id="node-layer"></div>
 
