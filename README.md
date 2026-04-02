@@ -1,1 +1,1 @@
-# tedx
+# tedx-A feature used for peer to peer connection using webRTC + peerJS,Which helps audience to share their worthful novel ideas and have live feedback through the speakers.
